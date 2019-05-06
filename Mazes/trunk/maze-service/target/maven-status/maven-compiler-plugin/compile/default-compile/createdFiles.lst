@@ -1,0 +1,3 @@
+net\gilmor\service\maze\MazeService.class
+net\gilmor\service\maze\model\MazeCell.class
+net\gilmor\service\maze\model\MazeMap.class
