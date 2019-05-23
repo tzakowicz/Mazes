@@ -7,7 +7,7 @@ import javax.ws.rs.core.Application;
 
 import net.gilmor.service.maze.MazeService;
 
-@ApplicationPath("/services")
+@ApplicationPath("/maze")
 public class AppRoot extends Application {
 
 	private Set<Object> singletons = new HashSet<Object>();

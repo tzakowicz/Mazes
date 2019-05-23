@@ -21,8 +21,8 @@ import maze.parent.Maze;
 import net.gilmor.service.maze.model.MazeMap;
 
 @Path("/")
-public class MazeService extends Application {
-	
+public class MazeService {
+
 	@GET
 	@Path("/map")
 	public Response getMazeMap(
@@ -33,7 +33,9 @@ public class MazeService extends Application {
 		MazeMap map = MazeMap.consume(maze);
 		Gson gson = new Gson();
 		String jsonMap = gson.toJson(map);
-		return Response.ok(jsonMap).build();
+		return Response
+				.ok(jsonMap)
+				.build();
 	}
 
 	@GET
