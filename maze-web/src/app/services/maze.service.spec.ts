@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 
-import { MazeServiceService } from './maze-service.service';
+import { MazeServiceService } from './maze.service';
 
 describe('MazeServiceService', () => {
   beforeEach(() => TestBed.configureTestingModule({}));

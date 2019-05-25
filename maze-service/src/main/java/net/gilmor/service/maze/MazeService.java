@@ -2,8 +2,6 @@ package net.gilmor.service.maze;
 
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-
 import javax.imageio.ImageIO;
 import javax.ws.rs.DefaultValue;
 import javax.ws.rs.GET;
@@ -27,14 +25,17 @@ public class MazeService {
 	public Response getMazeMap(
 			@DefaultValue("20") @QueryParam("width") int width,
 			@DefaultValue("20") @QueryParam("height") int height) {
-		Maze maze = new RandomLeafWalkMaze(width, height);
-		maze.initGrid();
-		MazeMap map = MazeMap.consume(maze);
-		Gson gson = new Gson();
-		String jsonMap = gson.toJson(map);
-		return Response
-				.ok(jsonMap)
-				.build();
+		try {
+			Maze maze = buildMaze(width, height);
+			MazeMap map = MazeMap.consume(maze);
+			Gson gson = new Gson();
+			String jsonMap = gson.toJson(map);
+			return Response
+					.ok(jsonMap)
+					.build();
+		} catch (Exception e) {
+			return handleError(e);
+		}
 	}
 
 	@GET
@@ -43,21 +44,49 @@ public class MazeService {
 			@DefaultValue("10") @QueryParam("ratio") int ratio,
 			@DefaultValue("20") @QueryParam("height") int height,
 			@DefaultValue("20") @QueryParam("width") int width) {
-		Maze maze = new RandomLeafWalkMaze(height,width);
-		maze.initGrid();
-		BufferedImage img = new MazeImage(maze)
-				.setRatio(ratio)
-				.buildImage()
-				.getImage();
+		
 		try (ByteArrayOutputStream baos = new ByteArrayOutputStream()) {
+			Maze maze = buildMaze(height, width);
+			BufferedImage img = buildMazeImage(maze, ratio);
 			ImageIO.write(img, "bmp", baos);
 			return Response.ok(baos.toByteArray())
 					.header("Content-Type", "image/bmp")
 					.build();
-		} catch (IOException e) {
-			return Response.status(Status.INTERNAL_SERVER_ERROR)
+		} catch (Exception e) {
+			return handleError(e);
+		}
+	}
+
+	private Maze buildMaze(int height, int width) throws Exception {
+		if (width > 0 && width <= 200 &&
+				height > 0 && height <= 200) {
+			Maze maze = new RandomLeafWalkMaze(height, width);
+			maze.initGrid();
+			return maze;
+		}
+		throw new IndexOutOfBoundsException("Height and Width must be between 1 and 200.");
+	}
+	
+	private BufferedImage buildMazeImage(Maze maze, int ratio) throws Exception {
+		if (ratio > 0 && ratio <=20) 
+			return new MazeImage(maze)
+					.setRatio(ratio)
+					.getImage();
+		throw new IndexOutOfBoundsException("Ratio must be between 1 and 20");
+	}
+	
+	private Response handleError(Exception e) {
+		if (e instanceof IndexOutOfBoundsException) {
+			return Response
+					.status(Status.BAD_REQUEST)
 					.header("Content-Type", "text/plain")
-					.entity(e.getMessage())
+					.entity("Bad Request: " + e.getMessage())
+					.build();
+		} else {
+			return Response
+					.status(Status.INTERNAL_SERVER_ERROR)
+					.header("Content-Type", "text/plain")
+					.entity("Server Error: " + e.getMessage())
 					.build();
 		}
 	}
