@@ -9,7 +9,7 @@ import java.awt.image.BufferedImage;
 import maze.parent.Cell;
 import maze.parent.Maze;
 
-public class MazeImage {
+public class MazeImage implements IMazeImage {
 	
 	protected int ratio = 5;
 	protected BufferedImage image;
@@ -19,23 +19,27 @@ public class MazeImage {
 	public MazeImage(Maze maze) {
 		this.maze = maze;
 	}
-	
-	public MazeImage setRatio(int ratio) {
-		this.ratio = ratio;
-		return this;
-	}
-	
+
+	@Override
 	public BufferedImage getImage() {
 		if (image == null)
 			buildImage();
 		return image;
 	}
 	
-	public MazeImage buildImage() {
+	@Override
+	public IMazeImage setRatio(int ratio) {
+		this.ratio = ratio;
+		return this;
+	}
+
+	@Override
+	public IMazeImage buildImage() {
 		return buildImage(Color.BLACK, Color.WHITE);
 	}
-	
-	public MazeImage buildImage(Color bg, Color fg) {
+
+	@Override
+	public IMazeImage buildImage(Color bg, Color fg) {
 		Dimension dim = new Dimension(maze.getCols()*ratio, maze.getRows()*ratio);
 		image = new BufferedImage(dim.width+1, dim.height+1, BufferedImage.TYPE_INT_RGB);
 		Graphics2D g2d = image.createGraphics();

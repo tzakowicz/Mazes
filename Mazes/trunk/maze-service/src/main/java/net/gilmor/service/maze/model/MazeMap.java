@@ -1,24 +1,27 @@
 package net.gilmor.service.maze.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import maze.parent.Maze;
 
 public class MazeMap {
 	
-	private MazeCell[][] cells;
+	private List<MazeCell> cells;
 	
-	protected MazeCell[][] getCells() {
+	protected List<MazeCell> getCells() {
 		return cells;
 	}
 
-	protected void setCells(MazeCell[][] cells) {
+	protected void setCells(List<MazeCell> cells) {
 		this.cells = cells;
 	}
 
 	public static MazeMap consume(Maze maze) {
-		MazeCell[][] cells = new MazeCell[maze.getRows()][maze.getCols()];
+		List<MazeCell> cells = new ArrayList<MazeCell>();
 		for (int i=0; i<maze.getRows(); i++) {
 			for (int j=0; j<maze.getCols(); j++) {
-				cells[j][i] = MazeCell.consume(maze.getCellAt(i, j));
+				cells.add(MazeCell.consume(maze.getCellAt(i, j)));
 			}
 		}
 		MazeMap map = new MazeMap();

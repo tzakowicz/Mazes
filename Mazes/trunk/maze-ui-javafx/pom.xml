@@ -11,6 +11,11 @@
 			<artifactId>maze-algorithms</artifactId>
 			<version>1.0.0</version>
 		</dependency>
+		<dependency>
+			<groupId>net.gilmor</groupId>
+			<artifactId>maze-display</artifactId>
+			<version>1.0.0</version>
+		</dependency>
 	</dependencies>
 	<build>
 		<plugins>
