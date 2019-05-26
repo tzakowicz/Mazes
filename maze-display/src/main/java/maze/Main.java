@@ -5,8 +5,6 @@ import java.awt.image.BufferedImage;
 import maze.algorithms.RandomLeafWalkMaze;
 import maze.display.HeatMapMazeImage;
 import maze.display.MazeImage;
-import maze.masks.Mask;
-import maze.masks.MazeMask;
 import maze.parent.Maze;
 import maze.writer.ImageWriter;
 
