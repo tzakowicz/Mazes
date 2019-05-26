@@ -11,10 +11,13 @@ import maze.parent.Maze;
 
 public class MazeImage implements IMazeImage {
 	
-	protected int ratio = 5;
 	protected BufferedImage image;
+	protected int ratio = 10;
 	
 	protected Maze maze;
+	
+	protected Color background = Color.BLACK;
+	protected Color foreground = Color.WHITE;
 	
 	public MazeImage(Maze maze) {
 		this.maze = maze;
@@ -26,7 +29,7 @@ public class MazeImage implements IMazeImage {
 			buildImage();
 		return image;
 	}
-	
+
 	@Override
 	public IMazeImage setRatio(int ratio) {
 		this.ratio = ratio;
@@ -35,15 +38,12 @@ public class MazeImage implements IMazeImage {
 
 	@Override
 	public IMazeImage buildImage() {
-		return buildImage(Color.BLACK, Color.WHITE);
-	}
-
-	@Override
-	public IMazeImage buildImage(Color bg, Color fg) {
-		Dimension dim = new Dimension(maze.getCols()*ratio, maze.getRows()*ratio);
-		image = new BufferedImage(dim.width+1, dim.height+1, BufferedImage.TYPE_INT_RGB);
+		Dimension dim = new Dimension(
+				(maze.getCols() * ratio) + maze.getCols() + 1,
+				(maze.getRows() * ratio) + maze.getRows() + 1);
+		image = new BufferedImage(dim.width, dim.height, BufferedImage.TYPE_INT_RGB);
 		Graphics2D g2d = image.createGraphics();
-	    g2d.setColor(bg);
+	    g2d.setColor(background);
 	    g2d.fillRect(0, 0, dim.width, dim.height);
 		BasicStroke bs = new BasicStroke(1);
 		g2d.setStroke(bs);
@@ -52,38 +52,37 @@ public class MazeImage implements IMazeImage {
 				Cell cell = maze.getCellAt(i, j);
 				if (cell == null)
 					continue;
-				int llx = (cell.col)*ratio;
-				int lly = dim.height-(cell.row)*ratio;
-				int ulx = (cell.col)*ratio;
-				int uly = dim.height-(cell.row+1)*ratio;
-				int lrx = (cell.col+1)*ratio;
-				int lry = dim.height-(cell.row)*ratio;
-				int urx = (cell.col+1)*ratio;
-				int ury = dim.height-(cell.row+1)*ratio;
-				g2d.setColor(fg);
-				g2d.fillRect(ulx, uly, ratio, ratio);
-		        g2d.setColor(Color.BLACK);
-				if (cell.north == null) {
-					g2d.drawLine(ulx, uly, urx, ury);
-				}
-				if (cell.south == null) {
-					g2d.drawLine(llx, lly, lrx, lry);
-				}
-				if (cell.east == null) {
-					g2d.drawLine(urx, ury, lrx, lry);
-				}
-				if (cell.west == null) {
-					g2d.drawLine(ulx, uly, llx, lly);
-				}
+				writeCell(cell);
+				writeBorders(cell);
 			}
 		}
 		return this;
 	}
-
-	public Color randomColor() {
-		int r = (int) Math.floor(Math.random() * 256);
-		int g = (int) Math.floor(Math.random() * 256);
-		int b = (int) Math.floor(Math.random() * 256);
-		return new Color(r, g, b);
+	
+	private void writeCell(Cell cell) {
+		int ulx = (cell.col)*ratio + cell.col + 1;
+		int uly = image.getHeight()-((cell.row+1)*ratio + cell.row + 1);
+		Graphics2D g2d = image.createGraphics();
+		g2d.setColor(foreground);
+		g2d.fillRect(ulx, uly, ratio, ratio);
+	}
+	
+	private void writeBorders(Cell cell) {
+		int ulx = (cell.col)*ratio + cell.col + 1;
+		int uly = image.getHeight()-((cell.row+1)*ratio + cell.row + 1);
+		Graphics2D g2d = image.createGraphics();
+		g2d.setColor(foreground);
+		if (cell.north != null) {
+			g2d.drawLine(ulx, uly-1, ulx+ratio-1, uly-1);
+		}
+		if (cell.south != null) {
+			g2d.drawLine(ulx, uly+ratio, ulx+ratio-1, uly+ratio);
+		}
+		if (cell.east != null) {
+			g2d.drawLine(ulx+ratio+1, uly, ulx+ratio+1, uly+ratio-1);
+		}
+		if (cell.west != null) {
+			g2d.drawLine(ulx-1, uly, ulx-1, uly+ratio-1);
+		}
 	}
 }
