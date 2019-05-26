@@ -41,13 +41,13 @@ public class MazeService {
 	@GET
 	@Path("/image")
 	public Response getMazeImage(
-			@DefaultValue("10") @QueryParam("ratio") int ratio,
+			@DefaultValue("10") @QueryParam("cellSize") int cellSize,
 			@DefaultValue("20") @QueryParam("height") int height,
 			@DefaultValue("20") @QueryParam("width") int width) {
 		
 		try (ByteArrayOutputStream baos = new ByteArrayOutputStream()) {
 			Maze maze = buildMaze(height, width);
-			BufferedImage img = buildMazeImage(maze, ratio);
+			BufferedImage img = buildMazeImage(maze, cellSize);
 			ImageIO.write(img, "bmp", baos);
 			return Response.ok(baos.toByteArray())
 					.header("Content-Type", "image/bmp")
@@ -67,10 +67,10 @@ public class MazeService {
 		throw new IndexOutOfBoundsException("Height and Width must be between 1 and 200.");
 	}
 	
-	private BufferedImage buildMazeImage(Maze maze, int ratio) throws Exception {
-		if (ratio > 0 && ratio <=20) 
+	private BufferedImage buildMazeImage(Maze maze, int cellSize) throws Exception {
+		if (cellSize > 0 && cellSize <=20) 
 			return new MazeImage(maze)
-					.setRatio(ratio)
+					.setRatio(cellSize)
 					.getImage();
 		throw new IndexOutOfBoundsException("Ratio must be between 1 and 20");
 	}
