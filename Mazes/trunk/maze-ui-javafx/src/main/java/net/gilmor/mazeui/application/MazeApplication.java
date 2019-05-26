@@ -216,11 +216,11 @@ public class MazeApplication extends Application {
 	}
 	
 	private int translateX(int cellX) {
-		return (maze.getRows()-1 - cellX) * ratio;
+		return (maze.getRows() - cellX) * ratio - cellX;
 	}
 	
 	private int translateY(int cellY) {
-		return cellY * ratio;
+		return cellY * ratio + cellY;
 	}
 	
 	private void processWin() {
