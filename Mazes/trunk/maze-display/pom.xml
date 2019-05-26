@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>net.gilmor</groupId>
 	<artifactId>maze-display</artifactId>
-	<version>1.0.0</version>
+	<version>1.1.0</version>
 	<name>Maze Display</name>
 	<description>Different ways of displaying mazes.</description>
 	<dependencies>
