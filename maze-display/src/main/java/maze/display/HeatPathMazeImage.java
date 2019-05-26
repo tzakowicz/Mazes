@@ -28,11 +28,11 @@ public class HeatPathMazeImage extends MazeImage {
 	}
 
 	@Override
-	public MazeImage buildImage() {
+	public IMazeImage buildImage() {
 		return buildImage(Color.BLACK, Color.WHITE, Color.GREEN);
 	}
 	
-	public MazeImage buildImage(Color bg, Color fg, Color path) {
+	public IMazeImage buildImage(Color bg, Color fg, Color path) {
 		Dimension dim = new Dimension(maze.getCols()*ratio, maze.getRows()*ratio);
 		image = new BufferedImage(dim.width+1, dim.height+1, BufferedImage.TYPE_INT_RGB);
 		Graphics2D g2d = image.createGraphics();
