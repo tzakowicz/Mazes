@@ -12,7 +12,7 @@ import {MazeCell} from "./models/maze-cell.model";
 export class AppComponent {
 
   status: string = 'waiting';
-  defaultCellMap: MazeCell[][];
+  defaultCellMap: MazeCell[];
 
   constructor(private mazeService: MazeService) {
     this.getDefaultMap();
@@ -21,11 +21,18 @@ export class AppComponent {
   getDefaultMap() {
     this.status = 'called';
     this.mazeService.getMap()
-      .subscribe( cells => {
-        cells.forEach(cellRow => {
-          console.log(cellRow);
+      .subscribe(
+        cells => this.handleMap(cells),
+        err => {
+          if (err.status == 0) {
+            this.mazeService
+              .getMap('/assets/testmaze.json')
+              .subscribe(cells => this.handleMap(cells));
+          }
         });
-        this.status = 'finished';
-      });
+  }
+
+  handleMap(maze) {
+    this.defaultCellMap = maze;
   }
 }
