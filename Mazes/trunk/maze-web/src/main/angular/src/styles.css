@@ -1,0 +1,85 @@
+.maze-cell {
+  text-align:center;
+  min-width:2em;
+  max-width:2em;
+  min-height:2em;
+  max-height:2em;
+}
+
+.player-position {
+  background-color: green;
+}
+
+/* Classes to add borders to cells */
+.celltype-1 {
+  border-left: solid black 1px;
+  border-bottom: solid black 1px;
+  border-right: solid black 1px;
+}
+
+.celltype-2 {
+  border-top: solid black 1px;
+  border-left: solid black 1px;
+  border-right: solid black 1px;
+}
+
+.celltype-3 {
+  border-left: solid black 1px;
+  border-right: solid black 1px;
+}
+
+.celltype-4 {
+  border-top: solid black 1px;
+  border-left: solid black 1px;
+  border-bottom: solid black 1px;
+}
+
+.celltype-5 {
+  border-left: solid black 1px;
+  border-bottom: solid black 1px;
+}
+
+.celltype-6 {
+  border-top: solid black 1px;
+  border-left: solid black 1px;
+}
+
+.celltype-7 {
+  border-left: solid black 1px;
+}
+
+.celltype-8 {
+  border-top: solid black 1px;
+  border-bottom: solid black 1px;
+  border-right: solid black 1px;
+}
+
+.celltype-9 {
+  border-bottom: solid black 1px;
+  border-right: solid black 1px;
+}
+
+.celltype-10 {
+  border-top: solid black 1px;
+  border-right: solid black 1px;
+}
+
+.celltype-11 {
+  border-right: solid black 1px;
+}
+
+.celltype-12 {
+  border-top: solid black 1px;
+  border-bottom: solid black 1px;
+}
+
+.celltype-13 {
+  border-bottom: solid black 1px;
+}
+
+.celltype-14 {
+  border-top: solid black 1px;
+}
+
+.celltype-15 {
+}

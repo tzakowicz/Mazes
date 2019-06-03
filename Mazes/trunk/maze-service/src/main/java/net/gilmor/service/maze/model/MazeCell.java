@@ -7,11 +7,8 @@ public class MazeCell {
 	private int
 			x = 20,
 			y = 20;
-	private boolean
-			north = false,
-			south = false,
-			east = false,
-			west = false;
+	private boolean player = false;
+	private int cellType;
 
 	protected int getX() {
 		return x;
@@ -28,47 +25,32 @@ public class MazeCell {
 	protected void setY(int y) {
 		this.y = y;
 	}
-
-	protected boolean isNorth() {
-		return north;
-	}
-
-	protected void setNorth(boolean north) {
-		this.north = north;
-	}
-
-	protected boolean isSouth() {
-		return south;
-	}
-
-	protected void setSouth(boolean south) {
-		this.south = south;
-	}
-
-	protected boolean isEast() {
-		return east;
-	}
-
-	protected void setEast(boolean east) {
-		this.east = east;
-	}
-
-	protected boolean isWest() {
-		return west;
-	}
-
-	protected void setWest(boolean west) {
-		this.west = west;
-	}
 	
+	public boolean isPlayer() {
+		return player;
+	}
+
+	public void setPlayer(boolean player) {
+		this.player = player;
+	}
+
+	public int getCellType() {
+		return cellType;
+	}
+
+	public void setCellType(int cellType) {
+		this.cellType = cellType;
+	}
+
 	public static MazeCell consume(Cell cell) {
 		MazeCell newCell = new MazeCell();
 		newCell.x = cell.row;
 		newCell.y = cell.col;
-		newCell.north = cell.north != null;
-		newCell.south = cell.south != null;
-		newCell.east = cell.east != null;
-		newCell.west = cell.west != null;
+		newCell.cellType = 0;
+		if (cell.north != null) newCell.cellType += 1;
+		if (cell.south != null) newCell.cellType += 2;
+		if (cell.east != null) newCell.cellType += 4;
+		if (cell.west != null) newCell.cellType += 8;
 		return newCell;
 	}
 }
