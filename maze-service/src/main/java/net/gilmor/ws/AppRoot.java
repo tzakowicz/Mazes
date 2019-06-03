@@ -6,6 +6,7 @@ import javax.ws.rs.ApplicationPath;
 import javax.ws.rs.core.Application;
 
 import net.gilmor.service.maze.MazeService;
+import net.gilmor.service.maze.game.MazeGame;
 
 @ApplicationPath("/maze")
 public class AppRoot extends Application {
@@ -19,6 +20,7 @@ public class AppRoot extends Application {
 	@Override
 	public Set<Class<?>> getClasses() {
 		controllers.add(MazeService.class);
+		controllers.add(MazeGame.class);
 		return controllers;
 	}
 
