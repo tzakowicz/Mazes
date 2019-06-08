@@ -1,7 +1,8 @@
 <div style="text-align:center;">
   <div style="flex-wrap:nowrap">
-    <div *ngFor="let row of rows; let i = index" class="p-grid p-nogutter p-col-nogutter">
-      <div *ngFor="let col of row.cols" class="p-col maze-cell celltype-{{col.cellType}}{{col.player ? ' player-position' : ''}}"></div>
+    <div *ngFor="let row of maze.rows; let i = index" class="p-grid p-nogutter p-col-nogutter p-col-align-center">
+      <div *ngFor="let col of row.cols"
+           class="p-col maze-cell celltype-{{col.cellType}}{{col.player ? ' player-position' : ''}}{{col.finish ? ' finish-position' : ''}}"></div>
     </div>
   </div>
   <div class="p-grid">
@@ -25,7 +26,7 @@
         </div>
       </div>
     </div>
-    <div class="p-col">
+    <div class="p-col p-col-align-center">
       <p-button label="New" (click)="newGame()"></p-button>
     </div>
   </div>

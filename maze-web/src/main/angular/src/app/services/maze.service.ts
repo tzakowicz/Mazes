@@ -1,25 +1,25 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http'
 
-import {Maze} from "../models/maze.model";
+import {MazePosition} from "../models/maze-position.model";
 
 @Injectable(
 
 )
 export class MazeService {
-  context = 'http://www.gilmor.net';
   url = '/mazes/maze/game/';
 
   constructor(private http: HttpClient) {
   }
 
-  getMap(url = this.context + this.url, x = '20', y = '20') {
-    return this.http.get<Maze>(
+  getMap(width: string = '20', height: string = '20', url = this.url) {
+    console.log(`width: ${width}, height: ${height}`);
+    return this.http.get(
       url,
       {
         params: {
-          'height': y,
-          'width': x
+          'height': height,
+          'width': width
         },
         responseType: 'json',
         withCredentials:true
@@ -27,17 +27,9 @@ export class MazeService {
     );
   }
 
-  newGame() {
-    return this.getDefault("new");
-  }
-
   move(dir) {
-    return this.getDefault(dir);
-  }
-
-  getDefault(endpoint) {
-    return this.http.get(
-      this.context + this.url + endpoint,
+    return this.http.get<MazePosition>(
+      this.url + dir,
       {
         withCredentials:true,
         headers: {'Content-Type': 'text/plain'}

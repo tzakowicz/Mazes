@@ -1,6 +1,7 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {MazeService} from "../services/maze.service";
-import {Maze} from "../models/maze.model";
+import {PlayableMaze} from "../models/playable-maze.model";
+import {SizeEnum} from "../models/size.enum";
 
 @Component({
   selector: 'app-maze-display',
@@ -9,69 +10,43 @@ import {Maze} from "../models/maze.model";
   providers: [MazeService]
 })
 export class MazeDisplayComponent implements OnInit {
+  maze = new PlayableMaze;
+  @Output() event = new EventEmitter;
+  @Input() size: SizeEnum;
 
-  width: number;
-  height: number;
-  maze: Maze;
-  rows;
-
-  constructor(private mazeService: MazeService) { }
+  constructor(private mazeService: MazeService) {}
 
   ngOnInit() {
-    this.getInitialMap();
-  }
-
-  getInitialMap() {
-    this.mazeService.getMap()
-      .subscribe(maze => {
-        console.log(maze);
-        this.maze = maze;
-        this.setUpMaze();
-        this.handleMaze();
-      },
-      err => {
-        console.log(err);
-      });
-  }
-
-  setUpMaze() {
-    this.width = this.maze.width;
-    this.height = this.maze.height;
-    this.rows = [];
-    for(var i = 0; i < this.height; i++) {
-      this.rows[i] =  {cols: []};
-      this.rows[i].cols = [];
+    if (this.size == SizeEnum.Small) {
+      this.getMaze('10', '10');
+    } else if (this.size == SizeEnum.Medium) {
+      this.getMaze('20', '20');
+    } else if (this.size == SizeEnum.Large) {
+      this.getMaze('30', '30');
     }
   }
 
-  getMap() {
-    this.mazeService.getMap()
+  newGame() {
+    this.event.emit(0);
+  }
+
+  getMaze(width, height) {
+    console.log(`width: ${width}, height: ${height}`);
+    this.mazeService.getMap(width, height)
       .subscribe(maze => {
-          this.maze = maze;
-          this.handleMaze();
+          this.maze.handleMaze(maze);
         },
         err => {
           console.log(err);
         });
   }
 
-  handleMaze() {
-    for(var i = this.height; i > 0; i--) {
-      for (var j = 0; j < this.width; j++) {
-        const row = this.height-i;
-        const index = row*this.height + j;
-        this.rows[i-1].cols[j] = this.maze.cells[index];
-      }
-    }
-  }
-
-  newGame() {
-    this.mazeService.newGame().subscribe(res => this.getMap());
-  }
-
   move(dir) {
     if (dir === 'u' || dir === 'd' || dir === 'l' || dir === 'r') {
-      this.mazeService.move(dir).subscribe(res => this.getMap());
+      this.mazeService.move(dir)
+        .subscribe(res => {
+          this.maze.setPlayerPos(res);
+        });
     }
   }
 }

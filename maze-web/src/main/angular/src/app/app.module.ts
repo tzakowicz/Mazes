@@ -6,17 +6,23 @@ import { HttpClientModule } from '@angular/common/http';
 import { AppComponent } from './app.component';
 import { MazeDisplayComponent } from './maze-display/maze-display.component';
 import {ButtonModule} from "primeng/button";
+import { MenuComponent } from './menu/menu.component';
+import {RadioButtonModule} from "primeng/primeng";
+import {FormsModule} from "@angular/forms";
 
 @NgModule({
   declarations: [
     AppComponent,
-    MazeDisplayComponent
+    MazeDisplayComponent,
+    MenuComponent
   ],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
     HttpClientModule,
-    ButtonModule
+    ButtonModule,
+    RadioButtonModule,
+    FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
