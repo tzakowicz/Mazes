@@ -1,4 +1,11 @@
-<div style="">
-  <app-maze-display></app-maze-display>
+<div style="text-align: center;">
+  <h1>Mazes!</h1>
 </div>
 
+<div *ngIf="!playing">
+  <app-menu (event)="startPlaying($event)"></app-menu>
+</div>
+
+<div *ngIf="playing">
+  <app-maze-display (event)="newGame($event)" [size]="size"></app-maze-display>
+</div>

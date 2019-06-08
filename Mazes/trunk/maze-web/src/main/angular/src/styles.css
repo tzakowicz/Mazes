@@ -1,3 +1,9 @@
+/* Component Styling */
+h1 {
+  background-color: #008800;
+  padding: 20px;
+}
+
 .maze-cell {
   text-align:center;
   min-width:2em;
@@ -7,6 +13,11 @@
 }
 
 .player-position {
+  padding: .5em;
+  background-color: blue;
+}
+
+.finish-position {
   background-color: green;
 }
 

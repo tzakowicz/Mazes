@@ -1,13 +1,15 @@
 export class MazeCell {
   x: number;
   y: number;
-  player: boolean;
   cellType: number;
+  player: boolean;
+  finish: boolean;
 
-  constructor(x, y, player, cellType) {
-    this.x = x;
-    this.y = y;
-    this.player = player;
-    this.cellType = cellType;
+  constructor(cell) {
+    this.x = cell.x;
+    this.y = cell.y;
+    this.cellType = cell.cellType;
+    this.player = false;
+    this.finish = false;
   }
 }
