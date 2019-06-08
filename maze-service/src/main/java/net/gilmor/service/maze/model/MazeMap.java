@@ -4,21 +4,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import maze.parent.Maze;
-import maze.parent.PlayableMaze;
 
 public class MazeMap {
 	
+	private int width, height;
+	private int playerX, playerY;
+	private int finishX, finishY;
 	private List<MazeCell> cells;
-	private int width;
-	private int height;
-	
-	protected List<MazeCell> getCells() {
-		return cells;
-	}
-
-	protected void setCells(List<MazeCell> cells) {
-		this.cells = cells;
-	}
 
 	public int getWidth() {
 		return width;
@@ -36,6 +28,46 @@ public class MazeMap {
 		this.height = height;
 	}
 
+	protected int getPlayerX() {
+		return playerX;
+	}
+
+	protected void setPlayerX(int playerX) {
+		this.playerX = playerX;
+	}
+
+	protected int getPlayerY() {
+		return playerY;
+	}
+
+	protected void setPlayerY(int playerY) {
+		this.playerY = playerY;
+	}
+
+	protected int getFinishX() {
+		return finishX;
+	}
+
+	protected void setFinishX(int finishX) {
+		this.finishX = finishX;
+	}
+
+	protected int getFinishY() {
+		return finishY;
+	}
+
+	protected void setFinishY(int finishY) {
+		this.finishY = finishY;
+	}
+	
+	protected List<MazeCell> getCells() {
+		return cells;
+	}
+
+	protected void setCells(List<MazeCell> cells) {
+		this.cells = cells;
+	}
+
 	public static MazeMap consume(Maze maze) {
 		List<MazeCell> cells = new ArrayList<MazeCell>();
 		for (int i=0; i<maze.getRows(); i++) {
@@ -43,19 +75,14 @@ public class MazeMap {
 				cells.add(MazeCell.consume(maze.getCellAt(i, j)));
 			}
 		}
-		if (maze instanceof PlayableMaze) {
-			int index = cells.stream()
-				.filter(c -> c.getX() == ((PlayableMaze)maze).getPlayerX())
-				.filter(c -> c.getY() == ((PlayableMaze)maze).getPlayerY())
-				.map(c -> cells.indexOf(c))
-				.findFirst()
-				.get();
-			cells.get(index).setPlayer(true);
-		}
 		MazeMap map = new MazeMap();
 		map.setCells(cells);
 		map.setWidth(maze.getCols());
 		map.setHeight(maze.getRows());
+		map.setPlayerX(maze.getStartX());
+		map.setPlayerY(maze.getStartY());
+		map.setFinishX(maze.getFinishX());
+		map.setFinishY(maze.getFinishY());
 		return map;
 	}
 }

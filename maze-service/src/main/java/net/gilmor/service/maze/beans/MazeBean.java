@@ -31,6 +31,22 @@ public class MazeBean implements Serializable {
 		return maze;
 	}
 	
+	public int getPlayerX() {
+		return maze.getPlayerX();
+	}
+	
+	public int getPlayerY() {
+		return maze.getPlayerY();
+	}
+	
+	public int getFinishX() {
+		return maze.getFinishX();
+	}
+	
+	public int getFinishY() {
+		return maze.getFinishY();
+	}
+	
 	public void moveUp() {
 		maze.moveNorth();
 	}
