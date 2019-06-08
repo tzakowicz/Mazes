@@ -4,10 +4,7 @@ import maze.parent.Cell;
 
 public class MazeCell {
 
-	private int
-			x = 20,
-			y = 20;
-	private boolean player = false;
+	private int x, y;
 	private int cellType;
 
 	protected int getX() {
@@ -24,14 +21,6 @@ public class MazeCell {
 
 	protected void setY(int y) {
 		this.y = y;
-	}
-	
-	public boolean isPlayer() {
-		return player;
-	}
-
-	public void setPlayer(boolean player) {
-		this.player = player;
 	}
 
 	public int getCellType() {

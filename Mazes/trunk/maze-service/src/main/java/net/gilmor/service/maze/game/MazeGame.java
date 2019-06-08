@@ -8,7 +8,6 @@ import javax.ws.rs.Path;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import javax.ws.rs.core.Response.ResponseBuilder;
 import javax.ws.rs.core.Response.Status;
 
 import com.google.gson.Gson;
@@ -16,6 +15,7 @@ import com.google.gson.Gson;
 import maze.parent.PlayableMaze;
 import net.gilmor.service.maze.beans.MazeBean;
 import net.gilmor.service.maze.model.MazeMap;
+import net.gilmor.service.maze.model.MazePosition;
 
 @Path("/game")
 public class MazeGame {
@@ -25,7 +25,7 @@ public class MazeGame {
 	
 	@OPTIONS
 	public Response getPreFlight() {
-		return buildResponse()
+		return Response.ok()
 				.header("Access-Control-Allow-Methods", "GET, POST, OPTIONS")
 				.build();
 	}
@@ -38,9 +38,7 @@ public class MazeGame {
 		MazeMap map = MazeMap.consume(maze);
 		Gson gson = new Gson();
 		String jsonMap = gson.toJson(map);
-		return buildResponse(jsonMap)
-				.header("Content-Type", MediaType.APPLICATION_JSON)
-				.build();
+		return buildResponse(jsonMap, MediaType.APPLICATION_JSON);
 	}
 	
 	@GET
@@ -48,56 +46,64 @@ public class MazeGame {
 	public Response startNewGame(@DefaultValue("20") @QueryParam("width") int width,
 			@DefaultValue("20") @QueryParam("height") int height) {
 		mazeBean.startGame(width, height);
-		return postResponse();
+		return buildResponse();
 	}
 
 	@GET
 	@Path("/u")
 	public Response moveUp() {
 		mazeBean.moveUp();
-		return postResponse();
+		return playerPosResponse();
 	}
 
 	@GET
 	@Path("/d")
 	public Response moveDown() {
 		mazeBean.moveDown();
-		return postResponse();
+		return playerPosResponse();
 	}
 
 	@GET
 	@Path("/l")
 	public Response moveLeft() {
 		mazeBean.moveLeft();
-		return postResponse();
+		return playerPosResponse();
 	}
 
 	@GET
 	@Path("/r")
 	public Response moveRight() {
 		mazeBean.moveRight();
-		return postResponse();
+		return playerPosResponse();
 	}
 	
-	private Response postResponse() {
+	private Response playerPosResponse() {
+		return buildResponse(getPlayerPosition(), MediaType.APPLICATION_JSON);
+	}
+	
+	private Response buildResponse() {
 		try {
-			return buildResponse()
-					.build();
+			return buildResponse("OK", MediaType.TEXT_PLAIN);
 		} catch (Exception e) {
 			return Response.status(Status.INTERNAL_SERVER_ERROR)
 					.entity("Exception: " + e.getMessage())
-					.header("Content-Type", "text/plain")
+					.header("Content-Type", MediaType.TEXT_PLAIN)
 					.build();
 		}
 	}
 	
-	private ResponseBuilder buildResponse(String content) {
-		return buildResponse()
-				.entity(content);
+	private Response buildResponse(Object entity, String contentType) {
+		return Response.ok()
+				.entity(entity)
+				.header("Content-Type", contentType)
+				.header("Access-Control-Allow-Credentials", "true")
+				.build();
 	}
 	
-	private ResponseBuilder buildResponse() {
-		return Response.ok()
-				.header("Access-Control-Allow-Credentials", "true");
+	private MazePosition getPlayerPosition() {
+		MazePosition pos = new MazePosition();
+		pos.setX(mazeBean.getPlayerX());
+		pos.setY(mazeBean.getPlayerY());
+		return pos;
 	}
 }
