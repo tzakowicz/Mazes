@@ -21,8 +21,8 @@ public class MazeBean implements Serializable {
 		startGame(20,20);
 	}
 	
-	public PlayableMaze startGame(int x, int y) {
-		maze = new RandomLeafWalkMaze(x, y);
+	public PlayableMaze startGame(int height, int width) {
+		maze = new RandomLeafWalkMaze(height, width);
 		maze.initGrid();
 		startTime = System.currentTimeMillis();
 		return maze;

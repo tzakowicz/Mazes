@@ -10,10 +10,9 @@
   <app-maze-display (event)="newGame($event)" [size]="size"></app-maze-display>
 </div>
 
-<p-dialog header="Finished" [(visible)]="popup">
-  <p>
-    <br/>
-    Congratulations! You finished with a time of {{ time | time }}!
-    <br/>
-  </p>
+<p-dialog header="Finished" [(visible)]="popup" [modal]="true" [responsive]="true">
+  <p style="margin:5px">Congratulations! You finished with a time of {{ time | time }}!</p>
+  <p-footer>
+    <button type="button" pButton (click)="popup=false" label="okay"></button>
+  </p-footer>
 </p-dialog>

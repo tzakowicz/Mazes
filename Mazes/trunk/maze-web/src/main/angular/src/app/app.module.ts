@@ -11,7 +11,7 @@ import { DialogModule } from 'primeng/dialog';
 import { AppComponent } from './app.component';
 import { TimePipe } from './pipes/time.pipe';
 import { MazeDisplayComponent } from './maze-display/maze-display.component';
-import { MazeMenuComponent } from './menu/maze-menu.component';
+import { MazeMenuComponent } from './maze-menu/maze-menu.component';
 
 @NgModule({
   declarations: [

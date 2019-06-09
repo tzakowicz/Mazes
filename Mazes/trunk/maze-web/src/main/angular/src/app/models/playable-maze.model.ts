@@ -14,7 +14,7 @@ export class PlayableMaze extends Maze {
       this.rows[i-1] = {cols: []};
       for (let j = 0; j < this.width; j++) {
         const row = this.height-i;
-        const index = row*this.height + j;
+        const index = row*this.width + j;
         this.rows[i-1].cols[j] = new MazeCell(maze.cells[index]);
       }
     }
