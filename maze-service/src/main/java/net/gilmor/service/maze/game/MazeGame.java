@@ -31,11 +31,12 @@ public class MazeGame {
 	}
 	
 	@GET
-	public Response getGameState(@DefaultValue("20") @QueryParam("width") int width,
+	public Response getGameState(
+			@DefaultValue("20") @QueryParam("width") int width,
 			@DefaultValue("20") @QueryParam("height") int height) {
 		if (mazeBean == null)
 			mazeBean = new MazeBean();
-		PlayableMaze maze = mazeBean.startGame(width, height);
+		PlayableMaze maze = mazeBean.startGame(height, width);
 		MazeMap map = MazeMap.consume(maze);
 		Gson gson = new Gson();
 		String jsonMap = gson.toJson(map);
