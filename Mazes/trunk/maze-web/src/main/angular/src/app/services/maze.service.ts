@@ -13,7 +13,6 @@ export class MazeService {
   }
 
   getMap(width: string = '20', height: string = '20', url = this.url) {
-    console.log(`width: ${width}, height: ${height}`);
     return this.http.get(
       url,
       {
@@ -22,7 +21,7 @@ export class MazeService {
           'width': width
         },
         responseType: 'json',
-        withCredentials:true
+        withCredentials: true
       }
     );
   }

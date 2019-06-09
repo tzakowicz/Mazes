@@ -20,9 +20,9 @@ export class MazeDisplayComponent implements OnInit {
     if (this.size == SizeEnum.Small) {
       this.getMaze('10', '10');
     } else if (this.size == SizeEnum.Medium) {
-      this.getMaze('20', '20');
+      this.getMaze('20', '15');
     } else if (this.size == SizeEnum.Large) {
-      this.getMaze('30', '30');
+      this.getMaze('30', '20');
     }
   }
 
@@ -31,7 +31,6 @@ export class MazeDisplayComponent implements OnInit {
   }
 
   getMaze(width, height) {
-    console.log(`width: ${width}, height: ${height}`);
     this.mazeService.getMap(width, height)
       .subscribe(maze => {
           this.maze.handleMaze(maze);
@@ -45,7 +44,11 @@ export class MazeDisplayComponent implements OnInit {
     if (dir === 'u' || dir === 'd' || dir === 'l' || dir === 'r') {
       this.mazeService.move(dir)
         .subscribe(res => {
-          this.maze.setPlayerPos(res);
+          if (res.time > 0) {
+            this.event.emit(res.time);
+          } else {
+            this.maze.setPlayerPos(res);
+          }
         });
     }
   }

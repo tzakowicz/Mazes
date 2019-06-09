@@ -1,8 +1,10 @@
 export class MazePosition {
+  time: number;
   x: number;
   y: number;
 
-  constructor(x: number, y: number) {
+  constructor(time: number, x: number, y: number) {
+    this.time = time;
     this.x = x;
     this.y = y;
   }

@@ -18,8 +18,8 @@ export class PlayableMaze extends Maze {
         this.rows[i-1].cols[j] = new MazeCell(maze.cells[index]);
       }
     }
-    this.setFinishPos(new MazePosition(maze.finishX, maze.finishY));
-    this.setPlayerPos(new MazePosition(maze.playerX, maze.playerY));
+    this.setFinishPos(new MazePosition(0, maze.finishX, maze.finishY));
+    this.setPlayerPos(new MazePosition(0, maze.playerX, maze.playerY));
   }
 
   setFinishPos(pos = this.finish) {
