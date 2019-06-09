@@ -1,5 +1,6 @@
-import {Component} from '@angular/core';
-import {SizeEnum} from "./models/size.enum";
+import { Component } from '@angular/core';
+
+import { SizeEnum } from "./models/size.enum";
 
 @Component({
   selector: 'app-root',
@@ -9,6 +10,8 @@ import {SizeEnum} from "./models/size.enum";
 export class AppComponent {
 
   playing = false;
+  time = 0;
+  popup = false;
   size: SizeEnum;
   constructor() {}
 
@@ -19,7 +22,8 @@ export class AppComponent {
 
   newGame(event) {
     if (event > 0) {
-      alert("You finished!");
+      this.time = event;
+      this.popup = true;
     }
     this.playing = false;
   }
