@@ -3,10 +3,10 @@ import {SizeEnum} from "../models/size.enum";
 
 @Component({
   selector: 'app-menu',
-  templateUrl: './menu.component.html',
-  styleUrls: ['./menu.component.css']
+  templateUrl: './maze-menu.component.html',
+  styleUrls: ['./maze-menu.component.css']
 })
-export class MenuComponent implements OnInit {
+export class MazeMenuComponent implements OnInit {
 
   @Output() event = new EventEmitter;
   size: SizeEnum;

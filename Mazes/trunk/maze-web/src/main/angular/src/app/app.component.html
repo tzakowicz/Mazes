@@ -9,3 +9,11 @@
 <div *ngIf="playing">
   <app-maze-display (event)="newGame($event)" [size]="size"></app-maze-display>
 </div>
+
+<p-dialog header="Finished" [(visible)]="popup">
+  <p>
+    <br/>
+    Congratulations! You finished with a time of {{ time | time }}!
+    <br/>
+  </p>
+</p-dialog>

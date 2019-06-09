@@ -2,19 +2,23 @@ import { BrowserModule } from '@angular/platform-browser';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
+import { FormsModule } from "@angular/forms";
+
+import { ButtonModule } from "primeng/button";
+import { RadioButtonModule } from "primeng/primeng";
+import { DialogModule } from 'primeng/dialog';
 
 import { AppComponent } from './app.component';
+import { TimePipe } from './pipes/time.pipe';
 import { MazeDisplayComponent } from './maze-display/maze-display.component';
-import {ButtonModule} from "primeng/button";
-import { MenuComponent } from './menu/menu.component';
-import {RadioButtonModule} from "primeng/primeng";
-import {FormsModule} from "@angular/forms";
+import { MazeMenuComponent } from './menu/maze-menu.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     MazeDisplayComponent,
-    MenuComponent
+    MazeMenuComponent,
+    TimePipe
   ],
   imports: [
     BrowserModule,
@@ -22,7 +26,8 @@ import {FormsModule} from "@angular/forms";
     HttpClientModule,
     ButtonModule,
     RadioButtonModule,
-    FormsModule
+    FormsModule,
+    DialogModule
   ],
   providers: [],
   bootstrap: [AppComponent]
