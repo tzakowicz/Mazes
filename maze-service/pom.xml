@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>net.gilmor</groupId>
 	<artifactId>maze-service</artifactId>
-	<version>0.1.0</version>
+	<version>1.0.0</version>
 	<packaging>war</packaging>
 	<name>Maze Web Services</name>
 	<properties>
@@ -33,7 +33,7 @@
 		<dependency>
 			<groupId>net.gilmor</groupId>
 			<artifactId>maze-web</artifactId>
-			<version>0.1.0</version>
+			<version>0.3.0</version>
 			<type>zip</type>
 		</dependency>
 		<dependency>
