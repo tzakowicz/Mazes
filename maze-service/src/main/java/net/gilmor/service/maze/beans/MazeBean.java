@@ -15,19 +15,16 @@ public class MazeBean implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	private PlayableMaze maze;
+	private long startTime;
 	
 	public void MazeGame() {
 		startGame(20,20);
 	}
 	
-	public void startGame(int x, int y) {
+	public PlayableMaze startGame(int x, int y) {
 		maze = new RandomLeafWalkMaze(x, y);
 		maze.initGrid();
-	}
-	
-	public PlayableMaze getMaze() {
-		if (maze == null)
-			startGame(20,20);
+		startTime = System.currentTimeMillis();
 		return maze;
 	}
 	
@@ -45,6 +42,15 @@ public class MazeBean implements Serializable {
 	
 	public int getFinishY() {
 		return maze.getFinishY();
+	}
+	
+	public long getPlayTime() {
+		long currentTime = System.currentTimeMillis();
+		return currentTime - startTime;
+	}
+	
+	public boolean isFinished() {
+		return maze.checkWin();
 	}
 	
 	public void moveUp() {

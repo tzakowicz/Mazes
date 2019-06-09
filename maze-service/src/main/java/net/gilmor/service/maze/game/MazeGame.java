@@ -31,10 +31,11 @@ public class MazeGame {
 	}
 	
 	@GET
-	public Response getGameState() {
+	public Response getGameState(@DefaultValue("20") @QueryParam("width") int width,
+			@DefaultValue("20") @QueryParam("height") int height) {
 		if (mazeBean == null)
 			mazeBean = new MazeBean();
-		PlayableMaze maze = mazeBean.getMaze();
+		PlayableMaze maze = mazeBean.startGame(width, height);
 		MazeMap map = MazeMap.consume(maze);
 		Gson gson = new Gson();
 		String jsonMap = gson.toJson(map);
@@ -102,6 +103,8 @@ public class MazeGame {
 	
 	private MazePosition getPlayerPosition() {
 		MazePosition pos = new MazePosition();
+		if (mazeBean.isFinished())
+			pos.setTime(mazeBean.getPlayTime());
 		pos.setX(mazeBean.getPlayerX());
 		pos.setY(mazeBean.getPlayerY());
 		return pos;
