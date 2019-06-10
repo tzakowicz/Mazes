@@ -11,8 +11,8 @@ import maze.writer.ImageWriter;
 public class Main {
 
 	public static void main(String[] args) {
-		int rows = 270;
-		int cols = 495;
+		int rows = 100;
+		int cols = 100;
 //		Maze btm = new BinaryTreeMaze(rows, cols);
 //		makeImage(btm);
 //		Maze swm = new SidewinderMaze(rows, cols);
@@ -47,7 +47,7 @@ public class Main {
 		disp = new HeatMapMazeImage(maze).setHeatStart(maze.getRows()/2, maze.getCols()/2);
 //		disp = new PathMazeImage(maze);
 //		disp = new HeatPathMazeImage(maze).setHeatStart(maze.getRows()/2, maze.getCols()/2);
-		disp.setRatio(1);
+		disp.setRatio(5);
 		BufferedImage image = disp.getImage();
 		ImageWriter.save(image);
 	}
