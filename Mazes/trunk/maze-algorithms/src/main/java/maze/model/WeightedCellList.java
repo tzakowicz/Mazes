@@ -12,9 +12,6 @@ public class WeightedCellList {
 	private List<Cell> cells = new ArrayList<>();
 	private Map<Cell, Integer> cellWeights = new HashMap<>();
 	
-	private int large = 5;
-	private int small = 1;
-	
 	public WeightedCellList(Cell curr, List<Cell> unvisited) {
 		cells = unvisited;
 		Cell prev = null;
@@ -27,19 +24,20 @@ public class WeightedCellList {
 		} else if (curr.west != null) {
 			prev = curr.west;
 		}
-		if (prev == null)
-			prev = new Cell(0, 0);
+		final int SMALL = 1;
+		final int LARGE = 2;
 		for (Cell cell : unvisited) {
 			if (isOpposite(prev, cell))
-				addCell(cell, small);
+				addCell(cell, SMALL);
 			else
-				addCell(cell, large);
+				addCell(cell, LARGE);
 		};
 	}
 	
 	private boolean isOpposite(Cell cell1, Cell cell2) {
-		if ((cell1.row == cell2.row && Math.abs(cell1.col - cell2.col) == 2) ||
-			(cell1.col == cell2.col && Math.abs(cell1.row - cell2.row) == 2))
+		if (cell1 != null && cell2 != null &&
+			((cell1.row == cell2.row && Math.abs(cell1.col - cell2.col) == 2) ||
+			(cell1.col == cell2.col && Math.abs(cell1.row - cell2.row) == 2)))
 			return true;
 		return false;
 	}
