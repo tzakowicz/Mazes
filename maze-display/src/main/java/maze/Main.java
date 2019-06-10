@@ -5,14 +5,17 @@ import java.awt.image.BufferedImage;
 import maze.algorithms.RandomLeafWalkMaze;
 import maze.display.HeatMapMazeImage;
 import maze.display.MazeImage;
+import maze.display.PathMazeImage;
 import maze.parent.Maze;
 import maze.writer.ImageWriter;
 
 public class Main {
 
 	public static void main(String[] args) {
-		int rows = 100;
-		int cols = 100;
+		int rows = 50;
+		int cols = 50;
+//		int rows = 1080/6;
+//		int cols = 1920/6;
 //		Maze btm = new BinaryTreeMaze(rows, cols);
 //		makeImage(btm);
 //		Maze swm = new SidewinderMaze(rows, cols);
@@ -44,8 +47,8 @@ public class Main {
 		maze.initGrid();
 		MazeImage disp;
 //		disp = new MazeImage2(maze);
-		disp = new HeatMapMazeImage(maze).setHeatStart(maze.getRows()/2, maze.getCols()/2);
-//		disp = new PathMazeImage(maze);
+//		disp = new HeatMapMazeImage(maze).setHeatStart(maze.getRows()/2, maze.getCols()/2);
+		disp = new PathMazeImage(maze);
 //		disp = new HeatPathMazeImage(maze).setHeatStart(maze.getRows()/2, maze.getCols()/2);
 		disp.setRatio(5);
 		BufferedImage image = disp.getImage();
