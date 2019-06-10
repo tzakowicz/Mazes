@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import maze.masks.Mask;
+import maze.model.WeightedCellList;
 import maze.parent.Cell;
 import maze.parent.PlayableMaze;
 
@@ -23,6 +24,7 @@ public class RandomLeafWalkMaze extends PlayableMaze {
 		this.name = "Masked Random Leaf Walk";
 	}
 	
+	@Override
 	public void initGrid() {
 		int randRow = (int) Math.floor(Math.random() * rows);
 		int randCol = (int) Math.floor(Math.random() * cols);
@@ -38,18 +40,15 @@ public class RandomLeafWalkMaze extends PlayableMaze {
 	private void walkFrom(Cell start) {
 		List<Cell> walk = new ArrayList<>();
 		Cell cell = start;
-		while (!cell.hasBeenVisited()) {
+		while (cell != null) {
 			cell.setVisited();
-			List<Cell> valid = findValid(cell, walk);
-			if (valid.isEmpty()) {
-				List<Cell> edges = findEdges();
-				if (edges.isEmpty())
-					break;
-				cell = randomCell(edges);
-				join(cell, findPassage(cell));
+			List<Cell> unvisited = findUnvisitedAndAdjacent(cell);
+			if (unvisited.isEmpty()) {
+				cell = findNewStart(walk);
 				continue;
 			}
-			Cell next = valid.get((int)Math.floor(Math.random() * valid.size()));
+			WeightedCellList weightedCells = new WeightedCellList(cell, unvisited);
+			Cell next = weightedCells.getCell();
 			join(cell, next);
 			walk.add(cell);
 			cell = next;
@@ -57,24 +56,42 @@ public class RandomLeafWalkMaze extends PlayableMaze {
 		walk.clear();
 	}
 
-	private List<Cell> findValid(Cell cell, List<Cell> walk) {
-		List<Cell> valid = new ArrayList<>();
+	private List<Cell> findUnvisitedAndAdjacent(Cell cell) {
+		List<Cell> unvisited = new ArrayList<>();
 		Cell north = getCellAt(cell.row+1, cell.col);
 		Cell south = getCellAt(cell.row-1, cell.col);
 		Cell east = getCellAt(cell.row, cell.col+1);
 		Cell west = getCellAt(cell.row, cell.col-1);
-		if (north != null && !walk.contains(north)) {
-			valid.add(north);
+		if (north != null && !north.hasBeenVisited()) {
+			unvisited.add(north);
 		}
-		if (south != null && !walk.contains(south)) {
-			valid.add(south);
+		if (south != null && !south.hasBeenVisited()) {
+			unvisited.add(south);
 		}
-		if (east != null && !walk.contains(east)) {
-			valid.add(east);
+		if (east != null && !east.hasBeenVisited()) {
+			unvisited.add(east);
 		}
-		if (west != null && !walk.contains(west)) {
-			valid.add(west);
+		if (west != null && !west.hasBeenVisited()) {
+			unvisited.add(west);
 		}
-		return valid;
+		return unvisited;
+	}
+
+	private Cell findNewStart(List<Cell> walk) {
+		Cell cell;
+		do {
+			walk.remove(walk.size()-1);
+			if (walk.size() == 0) {
+				List<Cell> edges = findEdges();
+				if (edges.isEmpty())
+					return null;
+				cell = randomCell(edges);
+				Cell newCell = findPassage(cell);
+				join(cell, newCell);
+				return newCell;
+			}
+			cell = walk.get(walk.size()-1);
+		} while (findUnvisitedAndAdjacent(cell).isEmpty());
+		return cell;
 	}
 }
