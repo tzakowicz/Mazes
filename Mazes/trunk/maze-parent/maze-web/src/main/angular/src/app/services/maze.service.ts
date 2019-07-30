@@ -7,7 +7,7 @@ import {MazePosition} from "../models/maze-position.model";
 
 )
 export class MazeService {
-  url = 'http://www.gilmor.net/mazes/maze/game/';
+  url = 'maze/game/';
 
   constructor(private http: HttpClient) {
   }
