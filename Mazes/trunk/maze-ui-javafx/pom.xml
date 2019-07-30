@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>net.gilmor</groupId>
 	<artifactId>maze-ui-javafx</artifactId>
-	<version>0.8.1</version>
+	<version>0.8.2</version>
 	<dependencies>
 		<dependency>
 			<groupId>net.gilmor</groupId>
@@ -14,7 +14,7 @@
 		<dependency>
 			<groupId>net.gilmor</groupId>
 			<artifactId>maze-display</artifactId>
-			<version>1.0.0</version>
+			<version>1.1.0</version>
 		</dependency>
 	</dependencies>
 	<build>

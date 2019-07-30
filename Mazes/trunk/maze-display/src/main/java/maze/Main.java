@@ -50,7 +50,7 @@ public class Main {
 //		disp = new HeatMapMazeImage(maze).setHeatStart(maze.getRows()/2, maze.getCols()/2);
 		disp = new PathMazeImage(maze);
 //		disp = new HeatPathMazeImage(maze).setHeatStart(maze.getRows()/2, maze.getCols()/2);
-		disp.setRatio(5);
+		disp.setCellSize(5);
 		BufferedImage image = disp.getImage();
 		ImageWriter.save(image);
 	}

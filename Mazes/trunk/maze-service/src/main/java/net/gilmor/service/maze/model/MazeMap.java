@@ -79,10 +79,10 @@ public class MazeMap {
 		map.setCells(cells);
 		map.setWidth(maze.getCols());
 		map.setHeight(maze.getRows());
-		map.setPlayerX(maze.getStartX());
-		map.setPlayerY(maze.getStartY());
-		map.setFinishX(maze.getFinishX());
-		map.setFinishY(maze.getFinishY());
+		map.setPlayerX(maze.getStartRow());
+		map.setPlayerY(maze.getStartCol());
+		map.setFinishX(maze.getFinishRow());
+		map.setFinishY(maze.getFinishCol());
 		return map;
 	}
 }

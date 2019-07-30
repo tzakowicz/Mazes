@@ -11,8 +11,8 @@ public class Maze implements Grid {
 
 	protected int rows, cols;
 	protected Cell[][] grid;
-	protected int startX, startY;
-	protected int finishX, finishY;
+	protected int startRow, startCol;
+	protected int finishRow, finishCol;
 
 	public Maze(int rows, int cols) {
 		this.rows = rows;
@@ -30,36 +30,36 @@ public class Maze implements Grid {
 		findFinish();
 	}
 	
-	public int getStartX() {
-		return startX;
+	public int getStartRow() {
+		return startRow;
 	}
 	
-	public void setStartX(int startX) {
-		this.startX = startX;
+	public void setStartRow(int startRow) {
+		this.startRow = startRow;
 	}
 	
-	public int getStartY() {
-		return startY;
+	public int getStartCol() {
+		return startCol;
 	}
 	
-	public void setStartY(int startY) {
-		this.startY = startY;
+	public void setStartCol(int startCol) {
+		this.startCol = startCol;
 	}
 	
-	public int getFinishX() {
-		return finishX;
+	public int getFinishRow() {
+		return finishRow;
 	}
 	
-	public void setFinishX(int finishX) {
-		this.finishX = finishX;
+	public void setFinishRow(int finishRow) {
+		this.finishRow = finishRow;
 	}
 	
-	public int getFinishY() {
-		return finishY;
+	public int getFinishCol() {
+		return finishCol;
 	}
 	
-	public void setFinishY(int finishY) {
-		this.finishY = finishY;
+	public void setFinishCol(int finishCol) {
+		this.finishCol = finishCol;
 	}
 
 	@Override
@@ -73,10 +73,10 @@ public class Maze implements Grid {
 	}
 
 	@Override
-	public Cell getCellAt(int x, int y) {
-		if (x >= 0 && x < rows) {
-			if (y >= 0 && y < cols) {
-				return grid[x][y];
+	public Cell getCellAt(int row, int col) {
+		if (row >= 0 && row < rows) {
+			if (col >= 0 && col < cols) {
+				return grid[row][col];
 			}
 		}
 		return null;
@@ -98,8 +98,8 @@ public class Maze implements Grid {
 		for (int i = 0; i < rows; i++) {
 			for (int j = 0; j < cols; j++) {
 				if (getCellAt(i, j) != null) {
-					startX = i;
-					startY = j;
+					startRow = i;
+					startCol = j;
 					return;
 				}
 			}
@@ -110,8 +110,8 @@ public class Maze implements Grid {
 		for (int i = rows-1; i > 0; i--) {
 			for (int j = cols-1; j >= 0; j--) {
 				if (getCellAt(i, j) != null) {
-					finishX = i;
-					finishY = j;
+					finishRow = i;
+					finishCol = j;
 					return;
 				}
 			}

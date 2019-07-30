@@ -33,7 +33,7 @@ public class HeatPathMazeImage extends MazeImage {
 	}
 	
 	public IMazeImage buildImage(Color bg, Color fg, Color path) {
-		Dimension dim = new Dimension(maze.getCols()*ratio, maze.getRows()*ratio);
+		Dimension dim = new Dimension(maze.getCols()*cellSize, maze.getRows()*cellSize);
 		image = new BufferedImage(dim.width+1, dim.height+1, BufferedImage.TYPE_INT_RGB);
 		Graphics2D g2d = image.createGraphics();
         g2d.setColor(bg);
@@ -45,19 +45,19 @@ public class HeatPathMazeImage extends MazeImage {
 				Cell cell = maze.getCellAt(i, j);
 				if (cell == null)
 					continue;
-				int llx = (cell.col)*ratio;
-				int lly = dim.height-(cell.row)*ratio;
-				int ulx = (cell.col)*ratio;
-				int uly = dim.height-(cell.row+1)*ratio;
-				int lrx = (cell.col+1)*ratio;
-				int lry = dim.height-(cell.row)*ratio;
-				int urx = (cell.col+1)*ratio;
-				int ury = dim.height-(cell.row+1)*ratio;
+				int llx = (cell.col)*cellSize;
+				int lly = dim.height-(cell.row)*cellSize;
+				int ulx = (cell.col)*cellSize;
+				int uly = dim.height-(cell.row+1)*cellSize;
+				int lrx = (cell.col+1)*cellSize;
+				int lry = dim.height-(cell.row)*cellSize;
+				int urx = (cell.col+1)*cellSize;
+				int ury = dim.height-(cell.row+1)*cellSize;
 				g2d.setColor(new Color(fg.getRed(), fg.getGreen(), fg.getBlue(), getAlpha(cell)));
-				g2d.fillRect(ulx, uly, ratio, ratio);
+				g2d.fillRect(ulx, uly, cellSize, cellSize);
 				if (pthlzr.getPath().contains(cell)) {
 					g2d.setColor(new Color(path.getRed(), path.getGreen(), path.getBlue(), 128));
-					g2d.fillRect(ulx, uly, ratio, ratio);
+					g2d.fillRect(ulx, uly, cellSize, cellSize);
 				}
 		        g2d.setColor(bg);
 				if (cell.north == null) {

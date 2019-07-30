@@ -1,14 +1,18 @@
-<div style="text-align:center;">
-  <div style="text-align:center;flex-wrap:nowrap">
-    <div *ngFor="let row of maze.rows; let i = index" class="p-grid p-nogutter p-col-nogutter p-col-align-center">
-      <div *ngFor="let col of row.cols; let j = index" id="row-{{i}}-col-{{j}}"
-           class="p-col maze-cell celltype-{{col.cellType}}{{col.player ? ' player-position' : ''}}{{col.finish ? ' finish-position' : ''}}"></div>
+<div style="text-align: center">
+  <div class="p-grid p-col-align-center" style="display: inline-block;">
+    <div class="p-col">
+      <div *ngFor="let row of maze.rows; let i = index" class="p-grid p-nogutter p-col-nogutter">
+        <div *ngFor="let col of row.cols; let j = index" id="row-{{i}}-col-{{j}}"
+             class="p-col maze-cell celltype-{{col.cellType}}{{col.player ? ' player-position' : ''}}{{col.finish ? ' finish-position' : ''}}">
+        </div>
+      </div>
     </div>
   </div>
+  <br/>
   <div class="p-grid">
     <div class="p-col p-col-align-center">
       <div class="p-grid">
-        <div class="p-col-1 p-col-align-center">
+        <div class="p-offset-4 p-col-1 p-col-align-center">
           <p-button icon="pi pi-chevron-left" (click)="move('l')"></p-button>
         </div>
         <div class="p-col-1 p-col-align-center">
@@ -24,6 +28,7 @@
         <div class="p-col-1 p-col-align-center">
           <p-button icon="pi pi-chevron-right" (click)="move('r')"></p-button>
         </div>
+        <div class="p-col-5"></div>
       </div>
     </div>
     <div class="p-col p-col-align-center">
