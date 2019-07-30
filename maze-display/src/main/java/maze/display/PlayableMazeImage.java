@@ -20,10 +20,10 @@ public class PlayableMazeImage extends MazeImage {
 		BufferedImage img = super.getImage();
 		Graphics g = img.getGraphics();
 		g.setColor(Color.RED);
-		int celBuf = Math.floorDiv(ratio, 2);
-		int xPos = maze.getPlayerX() * ratio + celBuf;
-		int yPos = maze.getPlayerY() * ratio + celBuf;
-		int plySize = ratio - celBuf;
+		int celBuf = Math.floorDiv(cellSize, 2);
+		int xPos = maze.getPlayerRow() * cellSize + celBuf;
+		int yPos = maze.getPlayerCol() * cellSize + celBuf;
+		int plySize = cellSize - celBuf;
 		g.drawRect(xPos, yPos, plySize, plySize);
 		return img;
 	}

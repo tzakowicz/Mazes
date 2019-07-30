@@ -4,7 +4,7 @@ import maze.masks.Mask;
 
 public class PlayableMaze extends Maze {
 
-	private int playerX, playerY;
+	private int playerRow, playerCol;
 
 	public PlayableMaze(int rows, int cols) {
 		super(rows, cols);
@@ -14,46 +14,46 @@ public class PlayableMaze extends Maze {
 		super(rows, cols, mask);
 	}
 
-	public int getPlayerX() {
-		return playerX;
+	public int getPlayerRow() {
+		return playerRow;
 	}
 
-	public void setPlayerX(int playerX) {
-		this.playerX = playerX;
+	public void setPlayerRow(int playerCol) {
+		this.playerRow = playerCol;
 	}
 
-	public int getPlayerY() {
-		return playerY;
+	public int getPlayerCol() {
+		return playerCol;
 	}
 
-	public void setPlayerY(int playerY) {
-		this.playerY = playerY;
+	public void setPlayerCol(int playerCol) {
+		this.playerCol = playerCol;
 	}
 	
 	public void moveNorth() {
-		moveTo(getCellAt(playerX, playerY).north);
+		moveTo(getCellAt(playerRow, playerCol).north);
 	}
 	
 	public void moveSouth() {
-		moveTo(getCellAt(playerX, playerY).south);
+		moveTo(getCellAt(playerRow, playerCol).south);
 	}
 	
 	public void moveEast() {
-		moveTo(getCellAt(playerX, playerY).east);
+		moveTo(getCellAt(playerRow, playerCol).east);
 	}
 	
 	public void moveWest() {
-		moveTo(getCellAt(playerX, playerY).west);
+		moveTo(getCellAt(playerRow, playerCol).west);
 	}
 	
 	private void moveTo(Cell cell) {
 		if (cell != null) {
-			playerX = cell.row;
-			playerY = cell.col;
+			playerRow = cell.row;
+			playerCol = cell.col;
 		}
 	}
 	
 	public boolean checkWin() {
-		return (playerX == finishX && playerY == finishY);
+		return (playerRow == finishRow && playerCol == finishCol);
 	}
 }

@@ -43,29 +43,29 @@ public class HeatMapMazeImage extends MazeImage {
 	}
 	
 	private void writeCell(Cell cell) {
-		int ulx = (cell.col)*ratio + cell.col + 1;
-		int uly = image.getHeight()-((cell.row+1)*ratio + cell.row + 1);
+		int ulx = (cell.col)*cellSize + cell.col + 1;
+		int uly = image.getHeight()-((cell.row+1)*cellSize + cell.row + 1);
 		Graphics2D g2d = image.createGraphics();
 		g2d.setColor(getHeat(cell));
-		g2d.fillRect(ulx, uly, ratio, ratio);
+		g2d.fillRect(ulx, uly, cellSize, cellSize);
 	}
 	
 	private void writeBorders(Cell cell) {
-		int ulx = (cell.col)*ratio + cell.col + 1;
-		int uly = image.getHeight()-((cell.row+1)*ratio + cell.row + 1);
+		int ulx = (cell.col)*cellSize + cell.col + 1;
+		int uly = image.getHeight()-((cell.row+1)*cellSize + cell.row + 1);
 		Graphics2D g2d = image.createGraphics();
 		g2d.setColor(getHeat(cell));
 		if (cell.north != null) {
-			g2d.drawLine(ulx, uly-1, ulx+ratio-1, uly-1);
+			g2d.drawLine(ulx, uly-1, ulx+cellSize-1, uly-1);
 		}
 		if (cell.south != null) {
-			g2d.drawLine(ulx, uly+ratio, ulx+ratio-1, uly+ratio);
+			g2d.drawLine(ulx, uly+cellSize, ulx+cellSize-1, uly+cellSize);
 		}
 		if (cell.east != null) {
-			g2d.drawLine(ulx+ratio+1, uly, ulx+ratio+1, uly+ratio-1);
+			g2d.drawLine(ulx+cellSize+1, uly, ulx+cellSize+1, uly+cellSize-1);
 		}
 		if (cell.west != null) {
-			g2d.drawLine(ulx-1, uly, ulx-1, uly+ratio-1);
+			g2d.drawLine(ulx-1, uly, ulx-1, uly+cellSize-1);
 		}
 	}
 	

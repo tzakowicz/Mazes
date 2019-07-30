@@ -10,31 +10,41 @@ import java.util.function.UnaryOperator;
 
 import javafx.application.Application;
 import javafx.embed.swing.SwingFXUtils;
-import javafx.event.*;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.geometry.Pos;
-import javafx.scene.*;
-import javafx.scene.canvas.*;
-import javafx.scene.control.*;
+import javafx.scene.Scene;
+import javafx.scene.canvas.Canvas;
+import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.control.Button;
+import javafx.scene.control.TextField;
+import javafx.scene.control.TextFormatter;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.layout.*;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
-import javafx.scene.text.*;
+import javafx.scene.text.Font;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import javafx.util.converter.*;
+import javafx.util.converter.IntegerStringConverter;
 import maze.algorithms.RandomLeafWalkMaze;
+import maze.display.HeatMapMazeImage;
 import maze.display.MazeImage;
+import maze.display.PathMazeImage;
 import maze.parent.PlayableMaze;
 
 @SuppressWarnings("restriction")
 public class MazeApplication extends Application {
 
 	private Stage mainStage;
-	private int ratio = 20;
-	TextField tfDimX;
-	TextField tfDimY;
-	private int offset = ratio/5;
-	private int size = ratio-offset-offset;
+	private int cellSize = 20;
+	private TextField tfHeight;
+	private TextField tfWidth;
+	private int offset = cellSize/5;
+	private int size = cellSize-offset-offset;
 	private double width, height;
 	private PlayableMaze maze;
 	private Canvas playerCanvas;
@@ -44,28 +54,28 @@ public class MazeApplication extends Application {
 		launch(args);
 	}
 	
-	public void setDimX(int dim) {
-		if (tfDimX == null)
-			tfDimX = new TextField();
-		tfDimX.setText(String.valueOf(dim));
+	public void setHeight(int dim) {
+		if (tfHeight == null)
+			tfHeight = new TextField();
+		tfHeight.setText(String.valueOf(dim));
 	}
 	
-	public int getDimX() {
-		if (tfDimX == null)
+	public int getHeight() {
+		if (tfHeight == null)
 			return 20;
-		return Integer.parseInt(tfDimX.getText());
+		return Integer.parseInt(tfHeight.getText());
 	}
 	
-	public void setDimY(int dim) {
-		if (tfDimY == null)
-			tfDimY = new TextField();
-		tfDimY.setText(String.valueOf(dim));
+	public void setWidth(int dim) {
+		if (tfWidth == null)
+			tfWidth = new TextField();
+		tfWidth.setText(String.valueOf(dim));
 	}
 	
-	public int getDimY() {
-		if (tfDimY == null)
+	public int getWidth() {
+		if (tfWidth == null)
 			return 20;
-		return Integer.parseInt(tfDimY.getText());
+		return Integer.parseInt(tfWidth.getText());
 	}
 
 	@Override
@@ -84,15 +94,15 @@ public class MazeApplication extends Application {
 	
 	private void goToMenu() {
 		Text titleText = getTitleText();
-		Text xText = new Text("X:");
-		tfDimX = getNumericTextField(getDimX(), this::setDimX);
-		HBox hbx = new HBox(10, xText, tfDimX);
-		Text yText = new Text("Y:");
-		TextField tfDimY = getNumericTextField(getDimY(), this::setDimY);
-		HBox hby = new HBox(10, yText, tfDimY);
+		Text xText = new Text("Height:");
+		tfHeight = getNumericTextField(getHeight(), this::setHeight);
+		HBox hbx = new HBox(40, xText, tfHeight);
+		Text yText = new Text("Width:");
+		TextField tfDimY = getNumericTextField(getWidth(), this::setWidth);
+		HBox hby = new HBox(40, yText, tfDimY);
 		VBox box = new VBox(10, hbx, hby);
-		box.setTranslateX((width/3)-tfDimX.getWidth()-30);
-		box.setTranslateY((3*height/4)-tfDimX.getHeight()-30);
+		box.setTranslateX((width/3)-tfHeight.getWidth()-30);
+		box.setTranslateY((3*height/4)-tfHeight.getHeight()-30);
 		Button playButton = getPlayButton();
 		StackPane menuPane = new StackPane();
 		menuPane.getChildren().addAll(titleText, playButton, box);
@@ -144,7 +154,7 @@ public class MazeApplication extends Application {
 		button.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent event) {
-				goToGame(getDimX(), getDimY());
+				goToGame(getHeight(), getWidth());
 			}
 		});
 		return button;
@@ -154,10 +164,11 @@ public class MazeApplication extends Application {
 
 	// GAME START //
 	
-	private void goToGame(int mazeWidth, int mazeHeight) {
-		initMaze(mazeWidth, mazeHeight);
-		BufferedImage img = new MazeImage(maze)
-				.setRatio(ratio)
+	private void goToGame(int height, int width) {
+		initMaze(height, width);
+		BufferedImage img = new HeatMapMazeImage(maze)
+				.setHeatStart(maze.getFinishRow(), maze.getFinishCol())
+				.setCellSize(cellSize)
 				.getImage();
 		ImageView imgView = new ImageView();
 		imgView.setImage(SwingFXUtils.toFXImage(img, null));
@@ -166,13 +177,13 @@ public class MazeApplication extends Application {
 		gamePane.getChildren().addAll(imgView, playerCanvas);
 		Scene scene = new Scene(gamePane, img.getWidth(), img.getHeight());
 		scene.addEventHandler(KeyEvent.KEY_PRESSED, this::handleEvent);
-		drawPlayerPos();
+		drawSpritePositions();
 		startTime = System.currentTimeMillis();
 		goTo(scene);
 	}
 
-	private void initMaze(int x, int y) {
-		maze = new RandomLeafWalkMaze(x, y);
+	private void initMaze(int height, int width) {
+		maze = new RandomLeafWalkMaze(height, width);
 		maze.initGrid();
 	}
 
@@ -197,30 +208,30 @@ public class MazeApplication extends Application {
 		default:
 			break;
 		};
-		drawPlayerPos();
+		drawSpritePositions();
 		processWin();
 	}
 	
-	private void drawPlayerPos() {
+	private void drawSpritePositions() {
 		GraphicsContext gc = playerCanvas.getGraphicsContext2D();
 		gc.clearRect(0, 0, playerCanvas.getWidth(), playerCanvas.getHeight());
-		markPos(gc, maze.getFinishX(), maze.getFinishY(), Color.GREEN);
-		markPos(gc, maze.getPlayerX(), maze.getPlayerY(), Color.RED);
+		markPos(gc, maze.getFinishRow(), maze.getFinishCol(), Color.GREEN);
+		markPos(gc, maze.getPlayerRow(), maze.getPlayerCol(), Color.RED);
 	}
 	
-	private void markPos(GraphicsContext gc, int x, int y, Color c) {
+	private void markPos(GraphicsContext gc, int row, int col, Color c) {
 		gc.setFill(c);
-		int finishX = translateX(x) + offset;
-		int finishY = translateY(y) + offset;
-        gc.fillOval(finishY, finishX, size, size);
+		int finalRowPos = translateRow(row) + offset;
+		int finalColPos = translateCol(col) + offset;
+        gc.fillOval(finalColPos, finalRowPos, size, size);
 	}
 	
-	private int translateX(int cellX) {
-		return (maze.getRows() - cellX) * ratio - cellX;
+	private int translateRow(int cellRow) {
+		return (maze.getRows() - 1 - cellRow) * (cellSize) + (maze.getRows() - cellRow);
 	}
 	
-	private int translateY(int cellY) {
-		return cellY * ratio + cellY;
+	private int translateCol(int cellCol) {
+		return cellCol * cellSize + cellCol + 1;
 	}
 	
 	private void processWin() {

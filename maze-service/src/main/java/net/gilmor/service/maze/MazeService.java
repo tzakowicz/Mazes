@@ -70,7 +70,7 @@ public class MazeService {
 	private BufferedImage buildMazeImage(Maze maze, int cellSize) throws Exception {
 		if (cellSize > 0 && cellSize <=20) 
 			return new MazeImage(maze)
-					.setRatio(cellSize)
+					.setCellSize(cellSize)
 					.getImage();
 		throw new IndexOutOfBoundsException("Ratio must be between 1 and 20");
 	}

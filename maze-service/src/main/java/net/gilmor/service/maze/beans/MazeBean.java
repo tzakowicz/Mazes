@@ -29,19 +29,19 @@ public class MazeBean implements Serializable {
 	}
 	
 	public int getPlayerX() {
-		return maze.getPlayerX();
+		return maze.getPlayerRow();
 	}
 	
 	public int getPlayerY() {
-		return maze.getPlayerY();
+		return maze.getPlayerCol();
 	}
 	
 	public int getFinishX() {
-		return maze.getFinishX();
+		return maze.getFinishRow();
 	}
 	
 	public int getFinishY() {
-		return maze.getFinishY();
+		return maze.getFinishCol();
 	}
 	
 	public long getPlayTime() {
