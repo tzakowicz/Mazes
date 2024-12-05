@@ -1,0 +1,10 @@
+# Java
+**/.project
+**/.classpath
+**/.settings/
+**/target/
+
+# Angular
+**/dist/
+**/node/
+**/node_modules/
