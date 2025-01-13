@@ -12,15 +12,15 @@ import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.Response.Status;
 import maze.parent.PlayableMaze;
-import net.gilmor.service.maze.beans.MazeBean;
+import net.gilmor.service.maze.beans.MazeGameBean;
 import net.gilmor.service.maze.model.MazeMap;
 import net.gilmor.service.maze.model.MazePosition;
 
 @Path("/game")
-public class MazeGame {
+public class MazeGameService {
 
     @Inject
-    private MazeBean mazeBean;
+    private MazeGameBean mazeBean;
 
     @OPTIONS
     public Response getPreFlight() {
@@ -31,7 +31,7 @@ public class MazeGame {
     public Response getGameState(@DefaultValue("20") @QueryParam("width") int width,
             @DefaultValue("20") @QueryParam("height") int height) {
         if (mazeBean == null)
-            mazeBean = new MazeBean();
+            mazeBean = new MazeGameBean();
         PlayableMaze maze = mazeBean.startGame(height, width);
         MazeMap map = MazeMap.consume(maze);
         Gson gson = new Gson();

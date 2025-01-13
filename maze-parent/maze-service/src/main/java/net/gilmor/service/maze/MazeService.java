@@ -16,7 +16,6 @@ import jakarta.ws.rs.core.Response.Status;
 import maze.algorithms.RandomLeafWalkMaze;
 import maze.display.MazeImage;
 import maze.parent.Maze;
-import net.gilmor.service.maze.model.MazeMap;
 
 @Path("/")
 public class MazeService {
@@ -27,9 +26,8 @@ public class MazeService {
             @DefaultValue("20") @QueryParam("height") int height) {
         try {
             Maze maze = buildMaze(width, height);
-            MazeMap map = MazeMap.consume(maze);
             Gson gson = new Gson();
-            String jsonMap = gson.toJson(map);
+            String jsonMap = gson.toJson(maze);
             return Response.ok(jsonMap).build();
         } catch (Exception e) {
             return handleError(e);
@@ -40,7 +38,6 @@ public class MazeService {
     @Path("/image")
     public Response getMazeImage(@DefaultValue("10") @QueryParam("cellSize") int cellSize,
             @DefaultValue("20") @QueryParam("height") int height, @DefaultValue("20") @QueryParam("width") int width) {
-
         try (ByteArrayOutputStream baos = new ByteArrayOutputStream()) {
             Maze maze = buildMaze(height, width);
             BufferedImage img = buildMazeImage(maze, cellSize);

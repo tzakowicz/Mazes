@@ -9,7 +9,7 @@ import maze.parent.PlayableMaze;
 
 @Stateful
 @SessionScoped
-public class MazeBean implements Serializable {
+public class MazeGameBean implements Serializable {
 
     private static final long serialVersionUID = 1L;
 

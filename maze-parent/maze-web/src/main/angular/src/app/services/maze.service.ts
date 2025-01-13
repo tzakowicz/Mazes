@@ -26,12 +26,13 @@ export class MazeService {
     );
   }
 
-  move(dir) {
+  move(dir: string) {
     return this.http.get<MazePosition>(
       this.url + dir,
       {
         withCredentials:true,
         headers: {'Content-Type': 'text/plain'}
-      });
+      }
+    );
   }
 }
